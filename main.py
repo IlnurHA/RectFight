@@ -1,12 +1,20 @@
 import pygame
 import classes
-from random import randint
+from random import randint, random
 
 pygame.init()
 
 
-def random_cubes():
-    return randint(1, 6), randint(1, 6)
+def random_cubes() -> [int, int]:
+    ans = [1, 1]
+    temp1, temp2 = random() ** 2, random() ** 2
+    for i in range(6):
+        iplusone = i + 1
+        if temp1 >= iplusone / 6:
+            ans[0] = iplusone
+        if temp2 >= iplusone / 6:
+            ans[1] = iplusone
+    return ans
 
 
 def next_turn(player_temp, board_check):
@@ -41,7 +49,7 @@ def init(*obj):
 # next_turn_sound = pygame.mixer.Sound('data/sound/NextTurn.wav')
 # set_block = pygame.mixer.Sound('data/sound/Block.wav')
 
-screen_size = width, height = (1200, 800)
+screen_size = width, height = (1920, 1080)
 screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)
 fullscreen = True
 
@@ -68,8 +76,7 @@ trying_rect = False
 winner = False
 winner_color = (0, 0, 0)
 
-end_turn_button = classes.Button((width // 2 - width // 15, (14 * height) // 15), 'End Turn',
-                                 size=(width // 11, height // 15))
+end_turn_button = classes.Button((100, height - 300), 'End Turn', pressed=False, size=(width // 11, height // 15))
 
 desk_rect = init(desk_rect, board)
 
