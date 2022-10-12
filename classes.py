@@ -82,7 +82,7 @@ class Board:
                         self.board[i][j] = player + 0.5
 
     # Checking new rect for necessary properties
-    # @params:
+    # parameters:
     #       second_pos: Tuple (float, float) - position on the screen (mouse button down point)
     #       desk_rect: List [int, int, int, int] - corner points of the desk
     #       screen_size: Tuple (int, int) - current window size

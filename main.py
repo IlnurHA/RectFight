@@ -142,7 +142,18 @@ while running:
             elif player == 2:
                 color = pygame.Color('blue')
 
-            pygame.draw.rect(screen, color, (rect_x, rect_y, arrow.pos[0] - rect_x, arrow.pos[1] - rect_y), 5)
+            rect_init_x, rect_init_y = rect_x, rect_y
+            draw_delta_x, draw_delta_y = arrow.pos[0] - rect_x, arrow.pos[1] - rect_y
+
+            if draw_delta_x < 0:
+                rect_init_x = arrow.pos[0]
+                draw_delta_x = rect_x - arrow.pos[0]
+
+            if draw_delta_y < 0:
+                rect_init_y = arrow.pos[1]
+                draw_delta_y = rect_y - arrow.pos[1]
+
+            pygame.draw.rect(screen, color, (rect_init_x, rect_init_y, draw_delta_x, draw_delta_y), 5)
 
         screen.blit(font.render(f'Ваш дроп: {cube_1} {cube_2}', 0, (0, 0, 0)), (0, 0))
         screen.blit(font.render(f'В области прямоугольника?: {pressed}', 0, (0, 0, 0)), (0, 60))
