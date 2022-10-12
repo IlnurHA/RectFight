@@ -80,11 +80,16 @@ class Board:
                 if -1 < i < len(self.board) and -1 < j < len(self.board[0]):
                     if self.board[i][j] == 0:
                         self.board[i][j] = player + 0.5
-        #
-        # print(first_x, first_y)
-        # print(mouse_x, mouse_y)
-        # print('===')
 
+    # Checking new rect for necessary properties
+    # @params:
+    #       second_pos: Tuple (float, float) - position on the screen (mouse button down point)
+    #       desk_rect: List [int, int, int, int] - corner points of the desk
+    #       screen_size: Tuple (int, int) - current window size
+    #       player: int - player code (1 - red player, 2 - blue player)
+    #       first_pos: Tuple (float, float) - position on the screen (starting point of new rect)
+    #       cubes: Tuple (int, int) - two values of random generated dice
+    #           (to check new rectangle for having necessary properties)
     def rect_check(self, *obj):
         second_pos, desk_rect, screen_size, player, first_pos, cubes = obj
         fx, fy = self.which_pos(first_pos, desk_rect, screen_size, player, boolean=True, first_pos=True)
@@ -102,6 +107,12 @@ class Board:
                 for j in range(first_j, second_j, step_j):
                     if -1 < j < len(self.board):
                         count_y += 1
+
+                        # If cell is occupied -> Cannot build new rect
+                        if self.board[i][j] == 1 or self.board[i][j] == 2:
+                            return False
+
+                        # Checking for player's adjacent cells
                         if self.checklist(i, j):
                             check_for_another_square = True
                         if -1 < i + 1 < len(self.board):
@@ -119,9 +130,7 @@ class Board:
         if count_x == 0:
             return False
         count_y //= count_x
-        print(((count_y == cubes[0] and count_x == cubes[1]) or (
-                count_x == cubes[0] and count_y == cubes[1])) and check_for_another_square)
-        print('---------')
+
         if ((count_y == cubes[0] and count_x == cubes[1]) or (
                 count_x == cubes[0] and count_y == cubes[1])) and check_for_another_square:
             return True
